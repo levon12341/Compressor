@@ -3,11 +3,8 @@ huffman/HuffmanOperator.class
 io/FileOutputHelper.class
 main/Frame.class
 main/Runner.class
-exceptions/NoFileFoundException.class
 tree/Node.class
 main/Main.class
 io/FileInputHelper.class
-exceptions/NoTableFoundException.class
 tree/PriorityQueue.class
-huffman/HuffmanTree.class
 huffman/Elem.class
