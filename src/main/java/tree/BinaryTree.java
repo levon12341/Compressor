@@ -12,7 +12,7 @@ public class BinaryTree implements Serializable {
         this.root = root;
     }
 
-    public int getFrequence() {
+    public long getFrequence() {
         return root.getFrequence();
     }
 

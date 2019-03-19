@@ -2,14 +2,14 @@ package tree;
 import java.io.Serializable;
 
 public class Node implements Serializable {
-    private int frequence;
+    private long frequence;
     private char letter;
     private Node leftChild;
     private Node rightChild;
 
     public Node() {}
 
-    public Node(char letter, int frequence) {
+    public Node(char letter, long frequence) {
         this.letter = letter;
         this.frequence = frequence;
     }
@@ -37,7 +37,7 @@ public class Node implements Serializable {
         return rightChild;
     }
 
-    public int getFrequence() {
+    public long getFrequence() {
         return frequence;
     }
 

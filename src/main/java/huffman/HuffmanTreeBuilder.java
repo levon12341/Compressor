@@ -3,24 +3,32 @@ package huffman;
 import tree.*;
 import java.math.BigDecimal;
 
-public class HuffmanTree {
-		private final byte ENCODING_TABLE_SIZE = 127;
-	    //private String myString;
+public class HuffmanTreeBuilder {
+		private final int ENCODING_TABLE_SIZE = Character.MAX_VALUE;
 	    private BinaryTree huffmanTree;
 	    private Elem[] chars;
 	    private BigDecimal bytedMsgLength;
 	
 	    //----------------constructor----------------------
-	    public HuffmanTree() {//a0String newString) {
-	        //myString = newString;
+	    public HuffmanTreeBuilder() {
 	        chars = new Elem[ENCODING_TABLE_SIZE];
 	        bytedMsgLength = new BigDecimal(0);
 	        for (int i = 0; i < ENCODING_TABLE_SIZE; i++) {
-	    		chars[i] = new Elem();
-	    	}
-	    }
+	    		chars[i] = new Elem((char)i);
+			}
+		}
+		
+		public HuffmanTreeBuilder(Elem[] frequenceTable) {
+			chars = frequenceTable;
+			for (int i = 0; i < ENCODING_TABLE_SIZE; i++) {
+				if (chars[i] == null)
+					chars[i] = new Elem((char)i);
+			}
+
+			bytedMsgLength = new BigDecimal(0);
+		}
 	    
-	    public void init() {
+	    public void build() {
 	    	huffmanTree = getHuffmanTree();
 	    	fillEncodingArray(huffmanTree.getRoot(), "", "");
 	    }
@@ -44,9 +52,8 @@ public class HuffmanTree {
 	                BinaryTree newTree = new BinaryTree(newNode);
 	                pq.insert(newTree);
 	            }
-	        }
-	
-	        int startSize = pq.getSize();
+			}
+			
 	        while (true) {
 	            BinaryTree tree1 = pq.remove();
 	        	try {
@@ -72,7 +79,7 @@ public class HuffmanTree {
 	    //-------------------encoding array------------------
 	    public void fillEncodingArray(Node node, String codeBefore, String direction) {
 	        if (node.isLeaf()) {
-	            chars[(int)node.getLetter()].setCode(codeBefore + direction);
+				chars[(int)node.getLetter()].setCode(codeBefore + direction);
 	            bytedMsgLength = bytedMsgLength.add(new BigDecimal(chars[(int)node.getLetter()].getCode().length() 
 	            		* chars[(int)node.getLetter()].getFrequence()));
 	        } else {
@@ -97,12 +104,20 @@ public class HuffmanTree {
 	        }
 	        System.out.println("========================================================");
 	    }
+
+	    public void displayFrequenceArray() {
+	    	System.out.println("========================Frequence array====================");
+
+	    	for (int i = 0; i < ENCODING_TABLE_SIZE; i++) {
+	    		if (chars[i].getFrequence() != 0)
+	    			System.out.println((char)i + ' ' + chars[i].getFrequence());
+			}
+
+			System.out.println("=============================================================");
+		}
 	    //-----------------------------------------------------
 	    public BigDecimal getBytedMsgLength() {
 	    	return bytedMsgLength;
 	    }
-	    /*String getOriginalString() {
-	        return myString;
-	    }*/
 	}
 

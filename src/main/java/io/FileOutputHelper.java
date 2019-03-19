@@ -10,12 +10,14 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 
 public class FileOutputHelper implements Closeable {
     private File outputFile;
     private FileOutputStream fileOutputStream;
     private ObjectOutputStream oos;
     private BufferedWriter bw;
+    private PrintWriter pw;
 
     public FileOutputHelper(File file) throws FileNotFoundException {
         outputFile = file;
@@ -36,6 +38,12 @@ public class FileOutputHelper implements Closeable {
     	bw.write(Character.toString(msg));
     }
 
+    public void writeLine(String s) throws IOException {
+        if (pw == null)
+            pw = new PrintWriter(outputFile);
+        pw.write(s);
+    }
+
     public void writeObject(Serializable object) throws IOException {
     	if (oos == null)
     		oos = new ObjectOutputStream(fileOutputStream);
@@ -52,7 +60,9 @@ public class FileOutputHelper implements Closeable {
     @Override
     public void close() throws IOException {
     	if (bw != null)
-    		bw.close();
+            bw.close();
+        if (pw != null)
+            pw.close();
     	closeObjectOutputStream();
     	fileOutputStream.close();
     }
